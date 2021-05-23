@@ -14,7 +14,7 @@ npm init -y
 ```
 npm i react react-dom
 ```
-4. 现在，您在package.json文件中的依赖项将具有以下内容：
+4. 现在，您在 `package.json` 文件中的依赖项将具有以下内容：
 
 ````json
 "dependencies": {
@@ -22,3 +22,28 @@ npm i react react-dom
    "react-dom": "^17.0.1"
  }
 ````
+5. 接下来，我们将安装dev依赖项和加载程序
+```
+npm i -D @babel/core @babel/preset-env @babel/preset-react babel-loader file-loader css-loader style-loader webpack webpack-cli html-webpack-plugin
+````
+6. 这就是devDependencies的样子 `package.json`：
+```json
+"devDependencies": {
+   "@babel/core": "^7.13.10",
+   "@babel/preset-env": "^7.13.10",
+   "@babel/preset-react": "^7.12.13",
+   "babel-loader": "^8.2.2",
+   "css-loader": "^5.1.3",
+   "file-loader": "^6.2.0",
+   "html-webpack-plugin": "^5.3.1",
+   "style-loader": "^2.0.0",
+   "webpack": "^5.27.0",
+   "webpack-cli": "^4.5.0",
+   "webpack-dev-server": "^3.11.2"
+ }
+```
+
+### 步骤2（使用Babel设置Webpack）
+### 步骤3（设置react文件夹）
+### 步骤4（运行应用）
+### 奖励：优化！
