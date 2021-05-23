@@ -44,6 +44,67 @@ npm i -D @babel/core @babel/preset-env @babel/preset-react babel-loader file-loa
 ```
 
 ### 步骤2（使用Babel设置Webpack）
+- 接下来，我们将创建一个名为的文件`.babelrc`，该文件会将我们的`React` 代码从`jsx`转换为常规`js`。我们需要包括以下预设：
+```json
+{
+   "presets": [
+       "@babel/preset-env",
+       "@babel/preset-react"
+   ]
+}
+```
+- 接下来，我们将创建webpack文件。我们将其命名 `webpack.config.js`。此`webpack`文件夹实质上在节点环境中运行，而不在浏览器中运行。因此，我们可以在此处编写原始js代码。
+```javascript
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+module.exports = {
+  // Where files should be sent once they are bundled
+ output: {
+   path: path.join(__dirname, '/dist'),
+   filename: 'index.bundle.js'
+ },
+  // webpack 5 comes with devServer which loads in development mode
+ devServer: {
+   port: 3000,
+   watchContentBase: true
+ },
+  // Rules of how webpack will take our files, complie & bundle them for the browser 
+ module: {
+   rules: [
+     {
+       test: /\.(js|jsx)$/,
+       exclude: /nodeModules/,
+       use: {
+         loader: 'babel-loader'
+       }
+     },
+     {
+       test: /\.css$/,
+       use: ['style-loader', 'css-loader']
+     }
+   ]
+ },
+ plugins: [new HtmlWebpackPlugin({ template: './src/index.html' })],
+}
+```
+> 了解 `webpack.config.js`
+> - 在 `output` 我们提到的文件打包后应该将文件发送到哪里。
+  path提到要创建的目录名称，所有捆绑文件将存储在该目录中。我们已将文件夹命名为dist，这是一种常见的做法。
+这filename是我们为将在webpack运行后创建的新捆绑文件设置的名称，这很神奇（基本上将所有js代码捆绑到一个文件中）。
+devServer 用于快速开发应用程序，这与生产模式相反，生产模式要花更多的时间来构建应用程序，因为它会缩小文件，这在开发模式下不会发生。
+
+通过port我们可以设置我们选择的端口号。我已将其设置为3000。
+watchContentBase 在任何文件中进行任何更改时，将触发整页重新加载。默认情况下，此功能处于禁用状态。
+module 是您通过捆绑文件规则的地方。
+
+test是我们提到文件扩展名的地方，它需要由特定的加载程序作为目标。所有.js或.jsx文件都需要由babel loader捆绑。
+exclude 是我们提到捆绑程序需要忽略的文件的地方。
+文件css也是如此。重要的是要注意，use :['style-loader', 'css-loader']需要按照确切的顺序来编写数组。
+当webpack捆绑css文件时，这是它的顺序：
+它首先运行css-loader将css文件转换为通用js的。
+然后运行style-loader它，将css作为字符串提取到文件中。
+最后，我们添加一个plugin名为HtmlWebpackPlugin的文件，以确保Webpack知道要运行该应用程序要遵循的html文件模板。
 ### 步骤3（设置react文件夹）
 ### 步骤4（运行应用）
 ### 奖励：优化！
